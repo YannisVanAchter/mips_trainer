@@ -1,2 +1,12 @@
+# ignore python repertory
 __pycache__ 
 venv
+
+# random file ignore
+.pdf
+.doc
+.docx
+
+# assembler ignore
+.s 
+.asm
