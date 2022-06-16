@@ -3,7 +3,7 @@ import unittest
 from typing import Callable
 
 # module to test
-import instruction_maker as im
+import scr.main.instruction_maker as im
 
 class TestInstructionMaker(unittest.TestCase):
     

@@ -4,14 +4,26 @@ Module to create MIPS32 instruction in binary format and tranlate: bin <-> mips
 """
 __author__  = "Yannis Van Achter <yannis.van.achter@gmail.com>"
 __date__    = "15 june 2022"
+__version__ = "1.0"
 
 # import
 import random
 
 from typing import Callable
 
-# data ressources and basic function 
-def set_lenght(bin: str, lenght=5) -> (str):
+# data ressources and basic function
+def set_lenght(bin: str, lenght: int = 5) -> (str):
+    """set lenght of a binary string
+
+    apply shift left to arrive at lenght given in parameters
+
+    Parameters:
+        bin (str): Binary string where we add 0 at begin 
+        lenght (int, optional): max lenght we want if the string is to large nothing to do. Defaults to 5
+
+    Returns:
+        bin (str): binary string where we add 0 at begin as requered
+    """
     while len(bin) < lenght:
         bin = '0' + bin
     return bin
@@ -92,7 +104,15 @@ MIPS_REGISTER_DICT_BIN = {
 
 # functions 
 def translate_bin_to_mips32(bin_instruction: str = '0'*32, test=False) -> (str):
-    def find_mips_from_bin(bin_word, dictionary: dict):
+    """translate binary string of mips32 instruction in formated mips32 
+
+    Parameter:
+        bin_instruction (str, optional): binary instruction to translate. Defaults to '0'*32.
+        
+    Return:
+        mips_code (str): formated mips code ready to use
+    """
+    def find_mips_from_bin(bin_word: str, dictionary: dict):
         for key, value in dictionary.items():
             if value == bin_word: return key
         else: return 'Unfound'
@@ -128,7 +148,7 @@ def translate_bin_to_mips32(bin_instruction: str = '0'*32, test=False) -> (str):
         if test: print(address)
         
         if opcode in ('lw', 'sw'): mips_code = f"{opcode} {rt}, {address}({rs})"
-        else: mips_code = f"{opcode} {rs}, {rt}, {address}"
+        else: mips_code = f"{opcode} {rt}, {rs}, {address}"
 
         
     elif opcode in MIPS_J_TYPE:        
@@ -139,10 +159,19 @@ def translate_bin_to_mips32(bin_instruction: str = '0'*32, test=False) -> (str):
     else: 
         raise ValueError(f"The binary instruction did not find mips instruction wich correspond to {bin_instruction}")
 
-    return mips_code
+    return mips_code + ';'
         
 
-def translate_mips32_to_bin(mips_instruction: str = 'add $s1, $s1, $s2', test=False):
+def translate_mips32_to_bin(mips_instruction: str = 'add $s1, $s1, $s2;', test=False):
+    """translate formated mips32 in binary string
+
+    Parameter:
+        mips_instruction (str, optional): mips instruction to translate. Defaults to '0'*32.
+        
+    Return:
+        bin_instruction (str): formated binary code ready to use
+    """
+    mips_instruction = mips_instruction.strip(';')
     mips_instruction_list = [a.strip(',') for a in mips_instruction.split(' ')] # list of word in mips ex: ['add', '$s1', '$t1', $t2']
     if test:
         print('In function translate_mips32_to_bin')
@@ -201,6 +230,17 @@ def translate_mips32_to_bin(mips_instruction: str = 'add $s1, $s1, $s2', test=Fa
     return bin_instruction
 
 def create_J_type_bin(test=False) -> (str):
+    """make random J-Type intruction in mips32 formated
+
+    Parameter:
+        test (bool, optional): True if you want to test the function. False otherwise. Defaults to False.
+
+    Return:
+        mips_code (str): mips32 instruction for jump 
+        
+    Note:
+        The address in in base ten 
+    """
     opcode = random.choice(MIPS_J_TYPE)
     if test:
         print("In function create_J_type_bin")
@@ -209,9 +249,20 @@ def create_J_type_bin(test=False) -> (str):
     address = random.randint(0,67108863)
     if test: print(address)
     
-    return  f"{opcode} {address}"
+    return  f"{opcode} {address};"
 
 def create_I_type_bin(test=False) -> (str):
+    """make random I-Type intruction in mips32 formated
+
+    Parameter:
+        test (bool, optional): True if you want to test the function. False otherwise. Defaults to False.
+
+    Return:
+        mips_code (str): mips32 instruction for branch or load/store 
+        
+    Note:
+        The address in in base ten 
+    """
     opcode = random.choice(MIPS_I_TYPE)
     if test:
         print("In function create_I_type_bin")
@@ -226,12 +277,20 @@ def create_I_type_bin(test=False) -> (str):
     address = random.randint(0, 65535)
     if test: print(address)
     
-    if opcode in ('lw', 'sw'): mips_code = f"{opcode} {rt}, {address}({rs})"
-    else: mips_code = f"{opcode} {rs}, {rt}, {address}"
+    if opcode in ('lw', 'sw'): mips_code = f"{opcode} {rt}, {address}({rs});"
+    else: mips_code = f"{opcode} {rs}, {rt}, {address};"
     
     return mips_code
 
 def create_R_Type_bin(test=False) -> (str):
+    """make random R-Type intruction in mips32 formated
+
+    Parameter:
+        test (bool, optional): True if you want to test the function. False otherwise. Defaults to False.
+
+    Return:
+        mips_code (str): mips32 instruction for jump 
+    """
     if test: print("In function create_R_Type_bin")
         
     rs = random.choice(list(MIPS_REGISTER_DICT_BIN.keys()))
@@ -246,14 +305,20 @@ def create_R_Type_bin(test=False) -> (str):
     func = random.choice(list(MIPS_INSTRUCTION_DICT_BIN_FUNCT.keys()))
     if test: print(func)
         
-    return f"{func} {rd}, {rs}, {rt}"
+    return f"{func} {rd}, {rs}, {rt};"
 
-def random_instruction(test=False) -> (str):
+def random_instruction(test=False) -> (tuple[str]):
     """generate one random instrcution in mips32 writen in binary
+    
+    Parameter:
+        test (bool, optional): True if you want to test the function. False otherwise. Defaults to False.
 
-    Return:
+    Return Tuple:
         bin_instruction : instruction in binary (str)
         default_instruction : instruction in mips 32 for correction (str)
+        
+    Note:
+        In default_instruction if there is an addres this is in base 10
     """
     
     mips_instruction = None
@@ -275,7 +340,7 @@ def random_instruction(test=False) -> (str):
     return bin_instruction , mips_instruction
 
 
-def __main__(test=False):
+if __name__ == '__main__':
     import os
     import time
     
@@ -291,13 +356,7 @@ def __main__(test=False):
         
         user_anwer = input(f"\nEnter your answer in mips32 : ")
         
-        if test: print(bin_instruction, mips_instruction)
-        
         if user_anwer == mips_instruction: print ("\nYou have performed admirably")
-        else: print("\nYou will be more lucki next time, but you are on the right way")
+        else: print(f"\nYou will be more lucky next time, but you are on the right way\nThe answer was : {mips_instruction}")
         
         time.sleep(3)
-        
-
-if __name__ == '__main__':
-    __main__()
