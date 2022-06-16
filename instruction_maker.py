@@ -278,71 +278,6 @@ def random_instruction(test=False) -> (str):
         
     return bin_instruction , mips_instruction
 
-def test():
-    def test_function(func: Callable = random_instruction, arg=[], test=True):
-        print("In function : ", func)
-        try:
-            p =  func(test=test)
-            print(p)
-        except Exception as e:
-            print("Error : ", e)
-        
-    test_function(random_instruction)
-    print()
-    
-    test_function(create_R_Type_bin)
-    print()
-    
-    test_function(create_J_type_bin)
-    print()
-    
-    test_function(create_I_type_bin)
-    print()
-    
-    translate_mips32_to_bin_return = translate_mips32_to_bin(test=True) 
-    translate_default = '0'*6+set_lenght(bin(17)[2:])+set_lenght(bin(18)[2:])+set_lenght(bin(17)[2:])+'0'*5 + MIPS_INSTRUCTION_DICT_BIN_FUNCT['add']
-    print("Default : ",translate_default)
-    print(translate_mips32_to_bin_return, translate_mips32_to_bin_return==translate_default)
-    print()
-    
-    translate_mips32_to_bin_return = translate_mips32_to_bin('beq $s1, $s2, 2094',test=True) 
-    translate_default = set_lenght(bin(4)[2:], 6)+set_lenght(bin(17)[2:])+set_lenght(bin(18)[2:])+set_lenght(bin(2094)[2:], 16)
-    print("Default : ",translate_default)
-    print(translate_mips32_to_bin_return,  translate_mips32_to_bin_return==translate_default)
-    print()
-    
-    translate_mips32_to_bin_return = translate_mips32_to_bin('lw $s1, 44($sp)',test=True) 
-    translate_default = set_lenght(bin(35)[2:], 6)+set_lenght(bin(17)[2:])+set_lenght(bin(29)[2:])+set_lenght(bin(44)[2:], 16)
-    print("Default : ",translate_default)
-    print(translate_mips32_to_bin_return,  translate_mips32_to_bin_return==translate_default)
-    print()
-    
-    translate_mips32_to_bin_return = translate_mips32_to_bin("jal 2094",test=True) 
-    translate_default = set_lenght(bin(3)[2:], 6)+set_lenght(bin(2094)[2:], 26)
-    print("Default : ",translate_default)
-    print(translate_mips32_to_bin_return,  translate_mips32_to_bin_return==translate_default)
-    print()
-    
-    translate_bin_to_mips32_return = translate_bin_to_mips32('000000011010111000111000000101010', True)
-    translate_default = "slt $t5, $t6, $a8"
-    print("Default : ",translate_default)
-    print(translate_bin_to_mips32_return, translate_bin_to_mips32_return==translate_default)
-    
-    # TODO: write test case
-    # translate_bin_to_mips32_return = translate_bin_to_mips32('000000011010111000111000000101010', True)
-    # translate_default = "slt $t5, $t6, $a8"
-    # print("Default : ",translate_default)
-    # print(translate_bin_to_mips32_return, translate_bin_to_mips32_return==translate_default)
-
-    # translate_bin_to_mips32_return = translate_bin_to_mips32('000000011010111000111000000101010', True)
-    # translate_default = "slt $t5, $t6, $a8"
-    # print("Default : ",translate_default)
-    # print(translate_bin_to_mips32_return, translate_bin_to_mips32_return==translate_default)
-
-    # translate_bin_to_mips32_return = translate_bin_to_mips32('000000011010111000111000000101010', True)
-    # translate_default = "slt $t5, $t6, $a8"
-    # print("Default : ",translate_default)
-    # print(translate_bin_to_mips32_return, translate_bin_to_mips32_return==translate_default)
 
 def __main__(test=False):
     import os
@@ -368,5 +303,4 @@ def __main__(test=False):
         
 
 if __name__ == '__main__':
-    test()
-    # __main__(True)
+    __main__()
