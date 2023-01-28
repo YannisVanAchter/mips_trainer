@@ -407,7 +407,7 @@ def main():
     while True:
         try:
             clear()
-            bin_instruction, mips_instruction = random_instruction(True)
+            bin_instruction, mips_instruction = random_instruction()
             print(f"tranlate the following binary instruction: \n{bin_instruction}")
 
             user_anwer = input(f"\nEnter your answer in mips32 : ").strip()
