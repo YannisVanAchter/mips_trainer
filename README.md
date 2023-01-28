@@ -4,7 +4,7 @@ This repository was created to train student of [Fonction and conept of computer
 
 <p>
     I follow this course in 2021-2022 for my first bachelor 
-    <a href="mailto:yannis.van.achter@gmail.com?subject=Hello!"> send me an email 
+    <a href="mailto:yannis.vanachter@student.unamur.be?subject=Modification/Pull Request on mips_trainer repo"> send me an email 
     </a>
     for a modification request or a pull request, with explaition of your code (join at the mail)
 </p>
