@@ -35,6 +35,7 @@ def from_int_to_bin(int_word: int, size: int):
         adress = '1' + set_lenght(adress[3:], size) # skip -0b for negative binary number
     else:
         adress = '0' + set_lenght(adress[2:], size) # skip 0b for positive binary number
+    return adress
 
 
 MIPS_INSTRUCTION_DICT_BIN_FUNCT = {  # Function code at end of mips instruction
@@ -241,7 +242,7 @@ def translate_mips32_to_bin(
             if verbose:
                 print(offset_base)
 
-            adress = from_int_to_bin(int(mips_instruction_list[1]), 15)
+            adress = from_int_to_bin(int(offset_base[0]), 15)
             if verbose:
                 print(adress)
 
@@ -254,14 +255,14 @@ def translate_mips32_to_bin(
             if verbose:
                 print(rs)
 
-            adress = from_int_to_bin(int(mips_instruction_list[1]), 15)            
+            adress = from_int_to_bin(int(mips_instruction_list[3]), 15)            
             if verbose:
                 print(adress)
 
         bin_instruction = op + rs + rt + adress
 
     elif opcode in MIPS_J_TYPE:
-        adress = from_int_to_bin(int(mips_instruction_list[1]), 26)
+        adress = set_lenght(bin(int(mips_instruction_list[1])), 26)
         if verbose:
             print(adress)
 
@@ -393,7 +394,7 @@ def random_instruction(verbose=False) -> (tuple[str]):
     if verbose:
         print("bin_instruction after call of function : ", mips_instruction)
 
-    bin_instruction = translate_bin_to_mips32(mips_instruction, verbose=verbose)
+    bin_instruction = translate_mips32_to_bin(mips_instruction, verbose=verbose)
 
     if verbose:
         print("default_instrcution : ", mips_instruction)
