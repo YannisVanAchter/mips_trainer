@@ -29,6 +29,13 @@ def set_lenght(bin: str, lenght: int = 5) -> (str):
         bin = "0" + bin
     return bin
 
+def from_int_to_bin(int_word: int, size: int):
+    adress = bin(int_word)
+    if adress.startswith('-'):
+        adress = '1' + set_lenght(adress[3:], size) # skip -0b for negative binary number
+    else:
+        adress = '0' + set_lenght(adress[2:], size) # skip 0b for positive binary number
+
 
 MIPS_INSTRUCTION_DICT_BIN_FUNCT = {  # Function code at end of mips instruction
     "add": set_lenght(bin(32)[2:], 6),
@@ -234,9 +241,9 @@ def translate_mips32_to_bin(
             if verbose:
                 print(offset_base)
 
-            address = set_lenght(bin(int(offset_base[0]))[2:], 16)
+            adress = from_int_to_bin(int(mips_instruction_list[1]), 15)
             if verbose:
-                print(address)
+                print(adress)
 
             rs = MIPS_REGISTER_DICT_BIN[offset_base[1]]
             if verbose:
@@ -247,18 +254,18 @@ def translate_mips32_to_bin(
             if verbose:
                 print(rs)
 
-            address = set_lenght(bin(int(mips_instruction_list[3]))[2:], 16)
+            adress = from_int_to_bin(int(mips_instruction_list[1]), 15)            
             if verbose:
-                print(address)
+                print(adress)
 
-        bin_instruction = op + rs + rt + address
+        bin_instruction = op + rs + rt + adress
 
     elif opcode in MIPS_J_TYPE:
-        address = set_lenght(bin(int(mips_instruction_list[1]))[2:], 26)
+        adress = from_int_to_bin(int(mips_instruction_list[1]), 26)
         if verbose:
-            print(address)
+            print(adress)
 
-        bin_instruction = op + address
+        bin_instruction = op + adress
 
     if verbose:
         print(bin_instruction)
@@ -410,9 +417,9 @@ def main():
             bin_instruction, mips_instruction = random_instruction()
             print(f"tranlate the following binary instruction: \n{bin_instruction}")
 
-            user_anwer = input(f"\nEnter your answer in mips32 : ").strip()
+            user_answer = input(f"\nEnter your answer in mips32 : ").strip()
 
-            if user_anwer == mips_instruction:
+            if user_answer == mips_instruction:
                 print("\nYou have performed admirably")
                 time.sleep(3)
             else:
