@@ -19,17 +19,30 @@ def set_lenght(bin: str, lenght: int = 5) -> (str):
     apply shift left to arrive at lenght given in parameters
 
     Parameters:
+    -----------
         bin (str): Binary string where we add 0 at begin
         lenght (int, optional): max lenght we want if the string is to large nothing to do. Defaults to 5
 
     Returns:
+    --------
         bin (str): binary string where we add 0 at begin as requered
     """
     while len(bin) < lenght:
         bin = "0" + bin
     return bin
 
-def from_int_to_bin(int_word: int, size: int):
+def from_int_to_bin(int_word: int, size: int) -> (str):
+    """Translate integer to signed binary expression 
+
+    Args:
+    -----
+        int_word (int): number to translate
+        size (int): size of the word in binary 
+
+    Returns:
+    --------
+        str: word tranlated
+    """
     adress = bin(int_word)
     if adress.startswith('-'):
         adress = '1' + set_lenght(adress[3:], size) # skip -0b for negative binary number
@@ -117,9 +130,11 @@ def translate_bin_to_mips32(bin_instruction: str = "0" * 32, verbose=False) -> (
     """translate binary string of mips32 instruction in formated mips32
 
     Parameter:
+    ----------
         bin_instruction (str, optional): binary instruction to translate. Defaults to '0'*32.
 
     Return:
+    -------
         mips_code (str): formated mips code ready to use
     """
 
@@ -192,9 +207,11 @@ def translate_mips32_to_bin(
     """translate formated mips32 in binary string
 
     Parameter:
+    ----------
         mips_instruction (str, optional): mips instruction to translate. Defaults to '0'*32.
 
     Return:
+    -------
         bin_instruction (str): formated binary code ready to use
     """
     mips_instruction = mips_instruction.strip(";")
@@ -277,12 +294,15 @@ def create_J_type_bin(verbose=False) -> (str):
     """make random J-Type intruction in mips32 formated
 
     Parameter:
+    ----------
         test (bool, optional): True if you want to test the function. False otherwise. Defaults to False.
 
     Return:
+    -------
         mips_code (str): mips32 instruction for jump
 
     Note:
+    -----
         The address in in base ten
     """
     opcode = random.choice(MIPS_J_TYPE)
@@ -301,12 +321,15 @@ def create_I_type_bin(verbose=False) -> (str):
     """make random I-Type intruction in mips32 formated
 
     Parameter:
+    ----------
         verbose (bool, optional): True if you want to test the function. False otherwise. Defaults to False.
 
     Return:
+    -------
         mips_code (str): mips32 instruction for branch or load/store
 
     Note:
+    -----
         The address in in base ten
     """
     opcode = random.choice(MIPS_I_TYPE)
@@ -338,9 +361,11 @@ def create_R_Type_bin(verbose=False) -> (str):
     """make random R-Type intruction in mips32 formated
 
     Parameter:
+    ----------
         verbose (bool, optional): True if you want to test the function. False otherwise. Defaults to False.
 
     Return:
+    -------
         mips_code (str): mips32 instruction for jump
     """
     if verbose:
@@ -369,13 +394,16 @@ def random_instruction(verbose=False) -> (tuple[str]):
     """generate one random instrcution in mips32 writen in binary
 
     Parameter:
+    ----------
         verbose (bool, optional): True if you want to test the function. False otherwise. Defaults to False.
 
     Return Tuple:
+    -------------
         bin_instruction : instruction in binary (str)
         default_instruction : instruction in mips 32 for correction (str)
 
     Note:
+    -----
         In default_instruction if there is an addres this is in base 10
     """
 
